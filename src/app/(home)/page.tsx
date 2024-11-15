@@ -1,18 +1,15 @@
+import { Suspense } from "react";
 import Banner from "./components/Banner";
 import Booklist from "./components/Booklist";
+import Loader from "@/components/Loader";
 
 export default async function Home() {
-  const data = await fetch(`${process.env.BACKEND_URL}/books`);
-  if (!data.ok) {
-    throw new Error("something went wrong while Book data fetching");
-  }
-  const book = await data.json();
-  console.log("book", book);
-
   return (
     <div>
       <Banner />
-      <Booklist books={book} />
+      <Suspense fallback={<Loader />}>
+        <Booklist />
+      </Suspense>
     </div>
   );
 }
